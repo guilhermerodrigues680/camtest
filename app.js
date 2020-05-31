@@ -108,8 +108,8 @@ btnTake.onclick = function (event) {
 
     ctx.textAlign = "end";
     ctx.fillText("Academia da Lari", canvas.width - 10, canvas.height -10);
-    // ctx.fillStyle = "#656fd8";
-    ctx.fillStyle = "#ffffffbb";
+    // ctx.strokeStyle = "#656fd8";
+    ctx.strokeStyle = "#00000066";
     ctx.strokeText("Academia da Lari", canvas.width - 10, canvas.height -10);
 
     const icon = document.querySelector('#icon-academia-lari');
