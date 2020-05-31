@@ -21,11 +21,16 @@ function gotDevices(deviceInfo) {
   for (let idx = 0; idx < deviceInfo.length; idx++) {
     const device = deviceInfo[idx];
     const option = document.createElement('option');
+    const option2 = document.createElement('option');
 
     if (device.kind === 'videoinput') {
       option.value = device.deviceId;
       option.text = device.label || `camera ${videoSelect.length + 1}`;
       videoSelect.appendChild(option);
+
+      option2.value = device.deviceId;
+      option2.text = device.label || `camera ${videoSelect.length + 1}`;
+      videoSelect.appendChild(option2);
     }
     
     console.log(device);
@@ -46,6 +51,7 @@ function start() {
     });
   }
   const videoSource = videoSelect.value;
+  console.log(videoSource)
 
   // Se houver device id preenche
   const constraints = {
