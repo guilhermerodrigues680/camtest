@@ -4,6 +4,11 @@ const DIV_OUTPUT_JS = document.querySelector('#output-js');
 
 const videoElement = document.querySelector('#video');
 const videoSelect = document.querySelector('select#videoSource');
+const btnShare = document.querySelector('#btn-share-photo');
+const btnTake = document.querySelector('#btn-take-photo');
+const canvas = window.canvas = document.querySelector('canvas');
+canvas.width = 480;
+canvas.height = 360;
 
 function gotStream(stream) {
   window.stream = stream; // make stream available to console
@@ -21,16 +26,16 @@ function gotDevices(deviceInfo) {
   for (let idx = 0; idx < deviceInfo.length; idx++) {
     const device = deviceInfo[idx];
     const option = document.createElement('option');
-    const option2 = document.createElement('option');
+    // const option2 = document.createElement('option');
 
     if (device.kind === 'videoinput') {
       option.value = device.deviceId;
       option.text = device.label || `camera ${videoSelect.length + 1}`;
       videoSelect.appendChild(option);
 
-      option2.value = device.deviceId;
-      option2.text = device.label || `camera ${videoSelect.length + 1}`;
-      videoSelect.appendChild(option2);
+      // option2.value = device.deviceId;
+      // option2.text = device.label || `camera ${videoSelect.length + 1}`;
+      // videoSelect.appendChild(option2);
     }
     
     console.log(device);
@@ -66,7 +71,15 @@ function start() {
 
 videoSelect.onchange = start;
 
-// Preenche as opcoes disponiveis
 // navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
 
-start();
+btnShare.onclick = function (params) {
+  console.log('ola mundo')
+  start();
+}
+
+btnTake.onclick = function (params) {
+  console.log(params)
+  canvas.getContext('2d').filter = "sepia(0.8)";
+  canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+}

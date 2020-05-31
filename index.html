@@ -8,12 +8,18 @@
 </head>
 <body>
 
-    <label for="videoSource">Video source: </label><select id="videoSource"></select>
-    <!-- <label for="audioSource">Audio source: </label><select id="audioSource"></select> -->
-    <!-- <label for="audioOutput">Audio Outptut: </label><select id="audioOutput"></select> -->
+    <button id="btn-share-photo">Compartilhar Foto</button>
+    <br>
+    <label for="videoSource">Video source: </label>
+    <select id="videoSource"></select>
 
-    <!-- <button id="showVideo">Olaaa</button> -->
     <video id="video" playsinline autoplay></video>
+
+    <br>
+    <button id="btn-take-photo">Tirar Foto</button>
+
+    <br>
+    <canvas></canvas>
 
     <div id="output-js"></div>
     <script src="app.js"></script>
