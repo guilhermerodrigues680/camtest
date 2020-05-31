@@ -58,7 +58,7 @@ function start() {
 }
 
 
-// videoSelect.onchange = start;
+videoSelect.onchange = start;
 
 // Preenche as opcoes disponiveis
 // navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
