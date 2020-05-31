@@ -6,6 +6,7 @@ const videoElement = document.querySelector('#video');
 const videoSelect = document.querySelector('select#videoSource');
 const btnShare = document.querySelector('#btn-share-photo');
 const btnTake = document.querySelector('#btn-take-photo');
+const btnSeePhoto = document.querySelector('#btn-see-photo');
 const canvas = window.canvas = document.querySelector('canvas');
 canvas.width = 480;
 canvas.height = 360;
@@ -73,13 +74,21 @@ videoSelect.onchange = start;
 
 // navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
 
-btnShare.onclick = function (params) {
-  console.log('ola mundo')
+btnShare.onclick = function (event) {
   start();
 }
 
-btnTake.onclick = function (params) {
-  console.log(params)
-  canvas.getContext('2d').filter = "sepia(0.8)";
-  canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+btnTake.onclick = function (event) {
+  console.log('Video size: ', videoElement.videoWidth, videoElement.videoHeight)
+  console.log('Video Container: ', videoElement.clientWidth, videoElement.clientHeight)
+  // canvas.getContext('2d').filter = "sepia(0.8)";
+  // canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+  
+  canvas.width = videoElement.videoWidth;
+  canvas.height = videoElement.videoHeight;
+  canvas.getContext('2d').drawImage(video, 0, 0, videoElement.videoWidth, videoElement.videoHeight);
+}
+
+btnSeePhoto.onclick = function (event) {
+  window.location.href = canvas.toDataURL();
 }
