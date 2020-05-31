@@ -1,80 +1,66 @@
-const DIV_OUTPUT_JS = document.querySelector('#output-js');
-
-function hasGetUserMedia() {
-    // Note: Opera builds are unprefixed.
-    return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia || navigator.msGetUserMedia);
-}
-  
-if (hasGetUserMedia()) {
-    console.log('ok! getUserMedia() is supported in your browser');
-    DIV_OUTPUT_JS.innerHTML = "OK!";
-} else {
-    console.log('getUserMedia() is not supported in your browser');
-    DIV_OUTPUT_JS.innerHTML = "SEM SUPORTE"
-}
-
-/*
- *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
- *
- *  Use of this source code is governed by a BSD-style license
- *  that can be found in the LICENSE file in the root of the source
- *  tree.
- */
 'use strict';
 
-// Put variables in global scope to make them available to the browser console.
-const constraints = window.constraints = {
-  audio: false,
-  video: true
-};
+const DIV_OUTPUT_JS = document.querySelector('#output-js');
 
-function handleSuccess(stream) {
-  const video = document.querySelector('video');
-  const videoTracks = stream.getVideoTracks();
-  console.log('Got stream with constraints:', constraints);
-  console.log(`Using video device: ${videoTracks[0].label}`);
-  window.stream = stream; // make variable available to browser console
-  video.srcObject = stream;
+const videoElement = document.querySelector('#video');
+const videoSelect = document.querySelector('select#videoSource');
+
+function gotStream(stream) {
+  window.stream = stream; // make stream available to console
+  videoElement.srcObject = stream;
+
+  console.log(stream);
+  return navigator.mediaDevices.enumerateDevices();
+}
+
+function gotDevices(deviceInfo) {
+  while (videoSelect.firstChild) {
+    videoSelect.removeChild(videoSelect.firstChild);
+  }
+
+  for (let idx = 0; idx < deviceInfo.length; idx++) {
+    const device = deviceInfo[idx];
+    const option = document.createElement('option');
+
+    if (device.kind === 'videoinput') {
+      option.value = device.deviceId;
+      option.text = device.label || `camera ${videoSelect.length + 1}`;
+      videoSelect.appendChild(option);
+    }
+    
+    console.log(device);
+  }
+
+  console.log(deviceInfo);
 }
 
 function handleError(error) {
-  if (error.name === 'ConstraintNotSatisfiedError') {
-    const v = constraints.video;
-    errorMsg(`The resolution ${v.width.exact}x${v.height.exact} px is not supported by your device.`);
-  } else if (error.name === 'PermissionDeniedError') {
-    errorMsg('Permissions have not been granted to use your camera and ' +
-      'microphone, you need to allow the page access to your devices in ' +
-      'order for the demo to work.');
+  console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
+}
+
+function start() {
+  // Se houver algum processo para eles
+  if (window.stream) {
+    window.stream.getTracks().forEach(track => {
+      track.stop();
+    });
   }
-  errorMsg(`getUserMedia error: ${error.name}`, error);
+  const videoSource = videoSelect.value;
+
+  // Se houver device id preenche
+  const constraints = {
+    audio: false,
+    video: { deviceId: videoSource ? { exact: videoSource } : undefined }
+  };
+
+  console.log(constraints)
+  navigator.mediaDevices.getUserMedia(constraints).then(gotStream).then(gotDevices).catch(handleError);
 }
 
-function errorMsg(msg, error) {
-  const errorElement = document.querySelector('#errorMsg');
-  errorElement.innerHTML += `<p>${msg}</p>`;
-  if (typeof error !== 'undefined') {
-    console.error(error);
-  }
-}
 
-async function init(e) {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    handleSuccess(stream);
-    e.target.disabled = true;
-  } catch (e) {
-    handleError(e);
-  }
-}
+// videoSelect.onchange = start;
 
-document.querySelector('#showVideo').addEventListener('click', e => init(e));
+// Preenche as opcoes disponiveis
+// navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
 
-function handleSuccess(stream) {
-  const video = document.querySelector('video');
-  const videoTracks = stream.getVideoTracks();
-  console.log('Got stream with constraints:', constraints);
-  console.log(`Using video device: ${videoTracks[0].label}`);
-  window.stream = stream; // make variable available to browser console
-  video.srcObject = stream;
-}
+start();
