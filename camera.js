@@ -5,11 +5,14 @@ const DIV_OUTPUT_JS = document.querySelector('#output-js');
 const videoElement = document.querySelector('#video');
 const videoSelect = document.querySelector('select#videoSource');
 const btnShare = document.querySelector('#btn-share-photo');
-const btnTake = document.querySelector('#btn-take-photo');
+// const btnTake = document.querySelector('#btn-take-photo');
+const btnTake = document.querySelector('#camera-button-click');
 const btnSeePhoto = document.querySelector('#btn-see-photo');
 const canvas = window.canvas = document.querySelector('canvas');
-canvas.width = 480;
-canvas.height = 360;
+// canvas.width = 480;
+// canvas.height = 360;
+canvas.width = 0;
+canvas.height = 0;
 
 function gotStream(stream) {
   window.stream = stream; // make stream available to console

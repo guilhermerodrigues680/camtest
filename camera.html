@@ -1,32 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet"> 
-    <title>Select audio and video sources</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="camera.css">
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+  <title>Select audio and video sources</title>
 </head>
+
 <body>
-
-    <img src="icon-academia-lari.png" id="icon-academia-lari" width="0" height="0">
-    <span id="load-font"></span>
-
-    <button id="btn-share-photo">Abri Camera</button>
-    <br>
-    <label for="videoSource">Video source: </label>
-    <select id="videoSource"></select>
-
+  <div id="camera-content">
     <video id="video" playsinline autoplay></video>
+    <div id="camera-button">
+      <div id="camera-button-click">
+      </div>
+    </div>
+  </div>
 
-    <br>
-    <button id="btn-take-photo">Tirar Foto</button>
-    <button id="btn-see-photo">Ver Foto</button>
+  <img src="icon-academia-lari.png" id="icon-academia-lari" width="0" height="0">
+  <span id="load-font"></span>
 
-    <br>
-    <canvas></canvas>
+  <button id="btn-share-photo">Abri Camera</button>
+  <br>
+  <label for="videoSource">Video source: </label>
+  <select id="videoSource"></select>
 
-    <div id="output-js"></div>
-    <script src="app.js"></script>
+  <!-- <video id="video" playsinline autoplay></video> -->
+
+  <br>
+  <button id="btn-take-photo">Tirar Foto</button>
+  <!-- <button id="btn-see-photo">Ver Foto</button> -->
+
+  <br>
+  <canvas></canvas>
+
+  <div id="output-js"></div>
+  <script src="camera.js"></script>
 </body>
+
 </html>
